@@ -16,14 +16,14 @@ module Enumerable
     end
 
     def my_select
-        newArr = []
+        new_arr = []
         self.my_each do |element|
             result = yield(element)
             if result == true
-                newArr.push(element)
+                new_arr.push(element)
             end
         end
-        newArr
+        new_arr
     end
 
     def my_all?
@@ -51,7 +51,24 @@ module Enumerable
             end
         end
         return true
-    end  
+    end
+
+    def my_count
+        new_arr = []
+        for item in self
+            if block_given?
+                if yield(item) == true
+                    new_arr.push(item)
+                    result = new_arr.length
+                else
+                    result = 0
+                end
+            else
+                result = self.length
+            end
+        end
+        result
+    end
 end
 
 # numbers = [2,4,7,9,1]
@@ -72,7 +89,9 @@ end
 # numbers = [3, 15, 9, -72, 33]
 # puts numbers.my_any? {|number| number > 10}
 
-numbers = [3, 15, 9, -72, 33]
-puts numbers.my_none? {|number| number < 34}
+# numbers = [3, 15, 9, -72, 33]
+# puts numbers.my_none? {|number| number < 34}
 
+numbers = [3, 15, 9, -72, 33]
+puts numbers.my_count{|number| number > -71}
 
