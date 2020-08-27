@@ -25,6 +25,15 @@ module Enumerable
         end
         newArr
     end
+
+    def my_all?
+        for item in self
+            if not yield(item)
+                return false
+            end
+        end
+        return true
+    end
 end
 
 # numbers = [2,4,7,9,1]
@@ -38,6 +47,9 @@ end
 
 # friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
 # p (friends.my_select { |friend| friend != "Brian" })
+
+numbers = [123, 45, 9, -72, 33]
+puts numbers.my_all? {|number| number < 124}
 
 
 
