@@ -43,6 +43,15 @@ module Enumerable
         end
         return false
     end
+
+    def my_none?
+        for item in self
+            if yield(item)
+                return false
+            end
+        end
+        return true
+    end  
 end
 
 # numbers = [2,4,7,9,1]
@@ -62,5 +71,8 @@ end
 
 # numbers = [3, 15, 9, -72, 33]
 # puts numbers.my_any? {|number| number > 10}
+
+numbers = [3, 15, 9, -72, 33]
+puts numbers.my_none? {|number| number < 34}
 
 
