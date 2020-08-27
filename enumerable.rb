@@ -34,6 +34,15 @@ module Enumerable
         end
         return true
     end
+
+    def my_any?
+        for item in self
+            if yield(item)
+                return true
+            end
+        end
+        return false
+    end
 end
 
 # numbers = [2,4,7,9,1]
@@ -48,8 +57,10 @@ end
 # friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
 # p (friends.my_select { |friend| friend != "Brian" })
 
-numbers = [123, 45, 9, -72, 33]
-puts numbers.my_all? {|number| number < 124}
+# numbers = [3, 15, 9, -72, 33]
+# puts numbers.my_all? {|number| number < 34}
 
+# numbers = [3, 15, 9, -72, 33]
+# puts numbers.my_any? {|number| number > 10}
 
 
