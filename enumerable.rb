@@ -69,6 +69,14 @@ module Enumerable
         end
         result
     end
+
+    def my_map
+        new_arr = []
+        for item in self
+            new_arr.push yield(item)
+        end
+        new_arr
+    end
 end
 
 # numbers = [2,4,7,9,1]
@@ -92,6 +100,9 @@ end
 # numbers = [3, 15, 9, -72, 33]
 # puts numbers.my_none? {|number| number < 34}
 
-numbers = [3, 15, 9, -72, 33]
-puts numbers.my_count{|number| number > -71}
+# numbers = [3, 15, 9, -72, 33]
+# puts numbers.my_count{|number| number > -71}
+
+array = [3, 15, 9, -72, 33]
+p array.my_map {|n| n % 8}
 
