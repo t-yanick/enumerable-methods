@@ -1,8 +1,4 @@
-# rubocop:disable Metrics/CyclomaticComplexity
-
-# rubocop:disable Metrics/PerceivedComplexity
-
-# rubocop:disable Metrics/MethodLength
+# rubocop:disable Style/CaseEquality
 
 module Enumerable
   def my_each
@@ -16,7 +12,8 @@ module Enumerable
     for num in self
       index = self.find_index(num)
       yield(num, index)
-      break if count <= 0
+      break if count <= 0 
+
       count -= 1
     end
   end
@@ -25,38 +22,34 @@ module Enumerable
     new_arr = []
     self.my_each do |element|
       result = yield(element)
-      if result == true
-        new_arr.push(element)
-      end
+      if result == true then new_arr.push(element) end
     end
     new_arr
   end
 
   def my_all?
     for item in self
-      if not yield(item)
+      unless yield(item)
         return false
       end
     end
-    return true
+    true
   end
 
   def my_any?
     for item in self
-      if yield(item)
-        return true
-      end
+      yield(item) ? result = true : result = false
     end
-    return false
+    result
   end
 
   def my_none?
     for item in self
-      if yield(item)
+      if yield(item) 
         return false
       end
     end
-    return true
+    true
   end
 
   def my_count
@@ -105,8 +98,4 @@ def multiply_els(arr)
   end
 end
 
-# rubocop:enable Metrics/CyclomaticComplexity
-
-# rubocop:enable Metrics/PerceivedComplexity
-
-# rubocop:enable Metrics/MethodLength
+# rubocop:enable Style/CaseEquality
