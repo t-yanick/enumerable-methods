@@ -1,4 +1,8 @@
-# rubocop:disable Style/CaseEquality
+# rubocop:disable Metrics/CyclomaticComplexity
+
+# rubocop:disable Metrics/PerceivedComplexity
+
+# rubocop:disable Metrics/MethodLength
 
 module Enumerable
   def my_each
@@ -72,14 +76,14 @@ module Enumerable
     result
   end
 
-  def my_map (my_proc = false)
+  def my_map(my_proc = false)
     new_arr = []
     for item in self
       if block_given?
         new_arr.push yield(item)
-      elsif my_proc 
-        new_arr.push my_proc.call(item) 
-      end 
+      elsif my_proc
+        new_arr.push my_proc.call(item)
+      end
     end
     new_arr
   end
@@ -88,7 +92,7 @@ module Enumerable
     i = 0
     accumulator = self[0]
     while i < self.length - 1
-      accumulator = yield(accumulator, self[i+1])
+      accumulator = yield(accumulator, self[i + 1])
       i += 1
     end
     accumulator
@@ -96,7 +100,13 @@ module Enumerable
 end
 
 def multiply_els(arr)
-    arr.my_inject do |a, b|
-        a * b
-    end
+  arr.my_inject do |a, b|
+    a * b
+  end
 end
+
+# rubocop:enable Metrics/CyclomaticComplexity
+
+# rubocop:enable Metrics/PerceivedComplexity
+
+# rubocop:enable Metrics/MethodLength
