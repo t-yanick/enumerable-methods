@@ -1,7 +1,7 @@
 module Enumerable
     def my_each
         for i in self
-            yield(i)
+            yield(i) if block_given?
         end
     end
 
@@ -73,17 +73,34 @@ module Enumerable
     def my_map
         new_arr = []
         for item in self
-            new_arr.push yield(item)
+            new_arr.push yield(item) if block_given?
         end
         new_arr
+    end
+
+    def my_inject
+        i = 0
+        accumulator = self[0]
+       while i < self.length - 1
+            accumulator = yield(accumulator, self[i+1])
+            i += 1
+       end
+       accumulator
+    end
+end
+
+def multiply_els(arr)
+    arr.my_inject do |a, b|
+        a * b
     end
 end
 
 # numbers = [2,4,7,9,1]
 # result = numbers.my_each {|number| puts number}
 
-# numbers = [2,4,7,9,1]
-# result = numbers.my_each_with_index {|number, i| puts "number is #{number} and index is #{i}"}
+# fruits = ["apple", "banana", "strawberry", "pineapple"]
+
+# fruits.my_each_with_index { |fruit, index| puts fruit if index.even? }
 
 # numbers = [2,4,7,9,1]
 # p (numbers.my_select {|number| number != 4})
@@ -103,6 +120,19 @@ end
 # numbers = [3, 15, 9, -72, 33]
 # puts numbers.my_count{|number| number > -71}
 
-array = [3, 15, 9, -72, 33]
-p array.my_map {|n| n % 8}
+# array = [3, 15, 9, -72, 33]
+# p array.my_map {|n| n % 8}
 
+# array = [3, 15, 9, -72, 33]
+
+# p (array.my_inject do |a, b|
+#     a + b
+# end)
+
+# p multiply_els([2,4,5])
+
+array = [3, 15, 9, -72, 33]
+
+modular_by_eight = Proc.new { |n| n + 2 }
+
+p (array.my_map(&modular_by_eight))
