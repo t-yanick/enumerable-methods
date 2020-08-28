@@ -1,4 +1,6 @@
-# rubocop:disable Style/CaseEquality
+# rubocop:disable Style/For
+
+# rubocop:disable Style/RedundantSelf
 
 module Enumerable
   def my_each
@@ -94,4 +96,4 @@ def multiply_els(arr)
   end
 end
 
-# rubocop:enable Style/CaseEquality
+# rubocop:enable Style/RedundantSelf
