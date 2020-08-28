@@ -12,7 +12,7 @@ module Enumerable
     for num in self
       index = self.find_index(num)
       yield(num, index)
-      break if count <= 0 
+      break if count <= 0
 
       count -= 1
     end
@@ -22,7 +22,7 @@ module Enumerable
     new_arr = []
     self.my_each do |element|
       result = yield(element)
-      if result == true then new_arr.push(element) end
+      new_arr.push(element) if result == true
     end
     new_arr
   end
