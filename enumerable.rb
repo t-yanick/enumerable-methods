@@ -29,25 +29,21 @@ module Enumerable
 
   def my_all?
     for item in self
-      unless yield(item)
-        return false
-      end
+      return false unless yield(item)
     end
     true
   end
 
   def my_any?
     for item in self
-      yield(item) ? result = true : result = false
+      return true if yield(item)
     end
-    result
+    false
   end
 
   def my_none?
     for item in self
-      if yield(item) 
-        return false
-      end
+      return false if yield(item)
     end
     true
   end
