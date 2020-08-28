@@ -96,4 +96,6 @@ def multiply_els(arr)
   end
 end
 
+# rubocop:enable Style/For
+
 # rubocop:enable Style/RedundantSelf
