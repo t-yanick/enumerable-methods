@@ -70,10 +70,14 @@ module Enumerable
         result
     end
 
-    def my_map
+    def my_map (my_proc = false)
         new_arr = []
         for item in self
-            new_arr.push yield(item) if block_given?
+            if block_given?
+                new_arr.push yield(item)
+            elsif my_proc 
+                new_arr.push my_proc.call(item) 
+            end 
         end
         new_arr
     end
@@ -94,45 +98,3 @@ def multiply_els(arr)
         a * b
     end
 end
-
-# numbers = [2,4,7,9,1]
-# result = numbers.my_each {|number| puts number}
-
-# fruits = ["apple", "banana", "strawberry", "pineapple"]
-
-# fruits.my_each_with_index { |fruit, index| puts fruit if index.even? }
-
-# numbers = [2,4,7,9,1]
-# p (numbers.my_select {|number| number != 4})
-
-# friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
-# p (friends.my_select { |friend| friend != "Brian" })
-
-# numbers = [3, 15, 9, -72, 33]
-# puts numbers.my_all? {|number| number < 34}
-
-# numbers = [3, 15, 9, -72, 33]
-# puts numbers.my_any? {|number| number > 10}
-
-# numbers = [3, 15, 9, -72, 33]
-# puts numbers.my_none? {|number| number < 34}
-
-# numbers = [3, 15, 9, -72, 33]
-# puts numbers.my_count{|number| number > -71}
-
-# array = [3, 15, 9, -72, 33]
-# p array.my_map {|n| n % 8}
-
-# array = [3, 15, 9, -72, 33]
-
-# p (array.my_inject do |a, b|
-#     a + b
-# end)
-
-# p multiply_els([2,4,5])
-
-array = [3, 15, 9, -72, 33]
-
-modular_by_eight = Proc.new { |n| n + 2 }
-
-p (array.my_map(&modular_by_eight))
