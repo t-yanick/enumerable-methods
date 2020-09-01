@@ -213,4 +213,4 @@ end
 
 # rubocop:enable Style/NilComparison
 
-# rubocop:disable Metrics/ModuleLength
+# rubocop:enable Metrics/ModuleLength
