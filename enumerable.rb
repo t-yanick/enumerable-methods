@@ -2,6 +2,18 @@
 
 # rubocop:disable Style/RedundantSelf
 
+# rubocop:disable Metrics/CyclomaticComplexity
+
+# rubocop:disable Metrics/MethodLength
+
+# rubocop:disable Metrics/PerceivedComplexity
+
+# rubocop:disable Style/GuardClause
+
+# rubocop:disable Style/MultipleComparison
+
+# rubocop:disable Style/IdenticalConditionalBranches
+
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -35,7 +47,7 @@ module Enumerable
   def my_all?(parameter = false)
     for item in self
       if block_given?
-        return yield(item)? true : false
+        return yield(item) ? true : false
 
       elsif !block_given? && parameter == false
         return item == false || item == nil ? false : true
@@ -65,38 +77,38 @@ module Enumerable
       for item in self
         return true if yield(item)
       end
-      return false
+      false
     end
 
-    if !block_given?
+    unless block_given?
       for item in self
         return true unless item == false || item == nil
       end
-      return false
+      false
     end
 
     if parameter && parameter.class == Class
       for item in self
         return true if item.is_a?(parameter)
       end
-      return false
+      false
     elsif parameter && parameter.class == Regexp
       for item in self
         return true if item.match(parameter)
       end
-      return false
+      false
     else
       for item in self
         return true if item == parameter
       end
-      return false
+      false
     end
   end
 
   def my_none?(parameter = false)
     for item in self
       if block_given?
-        return yield(item)? true : false
+        return yield(item) ? true : false
 
       elsif !block_given? && parameter == false
         return item == false || item == nil ? false : true
@@ -107,17 +119,17 @@ module Enumerable
       for item in self
         return false unless item.is_a?(parameter)
       end
-      return true
+      true
     elsif parameter && parameter.class == Regexp
       for item in self
         return false if item.match(parameter)
       end
-      return true
-    else parameter
+      true
+    elsif parameter
       for item in self
         return false if item == parameter
       end
-      return true
+      true
     end
   end
 
@@ -125,11 +137,9 @@ module Enumerable
     result = 0
     if block_given? && parameter == false
       for item in self
-        if yield(item) == true
-          result += 1
-        end
+        result += 1 if yield(item) == true
       end
-      return result
+      result
     elsif !block_given? && parameter == false
       return self.length
     end
@@ -171,9 +181,7 @@ module Enumerable
         accumulator = yield(accumulator, arr[i + 1])
         i += 1
       end
-      if parameter && parameter.class != Symbol
-        accumulator *= parameter
-      end
+      accumulator *= parameter if parameter && parameter.class != Symbol
     end
     accumulator
   end
@@ -188,3 +196,15 @@ end
 # rubocop:enable Style/For
 
 # rubocop:enable Style/RedundantSelf
+
+# rubocop:enable Metrics/CyclomaticComplexity
+
+# rubocop:enable Metrics/MethodLength
+
+# rubocop:enable Metrics/PerceivedComplexity
+
+# rubocop:enable Style/GuardClause
+
+# rubocop:enable Style/MultipleComparison
+
+# rubocop:enable Style/IdenticalConditionalBranches
