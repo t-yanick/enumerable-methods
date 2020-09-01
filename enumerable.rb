@@ -151,6 +151,8 @@ module Enumerable
     for item in self
       if block_given?
         new_arr.push yield(item)
+      elsif my_proc && my_proc.class == Symbol
+        new_arr.push item.my_proc
       elsif my_proc
         new_arr.push my_proc.call(item)
       end
@@ -158,12 +160,20 @@ module Enumerable
     new_arr
   end
 
-  def my_inject
+  def my_inject(parameter = false)
+    return unless block_given?
+
+    arr = self.to_a
+    accumulator = arr[0]
     i = 0
-    accumulator = self[0]
-    while i < self.length - 1
-      accumulator = yield(accumulator, self[i + 1])
-      i += 1
+    if block_given?
+      while i < arr.length - 1
+        accumulator = yield(accumulator, arr[i + 1])
+        i += 1
+      end
+      if parameter && parameter.class != Symbol
+        accumulator *= parameter
+      end
     end
     accumulator
   end
@@ -274,15 +284,45 @@ end
 
 #my_map
 
-array = [3, 15, 9, -72, 33]
+# array = [3, 15, 9, -72, 33]
 
-p array.my_map {|n| n % 8}	
+# my_proc = Proc.new{|i| i + 1}
 
+# p array.my_map {|n| n % 8}
+
+# p array.my_map(&my_proc)
+
+# p array.my_map(&:class)
+
+# puts my_proc.class
 
 #my_inject
 
+# array = [3, 15, 9, -72, 33]
+
 # p (array.my_inject do |a, b|	
-#     a + b	
-# end)	
+#     a * b	
+# end)
+
+# puts array.my_inject{}
+
+# p (array.my_inject { |product, n| product * n })
+
+# puts (5..10).my_inject(2) {|product, n| product * n }
+
+# puts (5..10).my_inject{ }
 
 # p multiply_els([2,4,5])
+
+# longest = %w{ cat sheep bear }.my_inject do |memo, word|
+#   memo.length > word.length ? memo : word
+# end
+# puts longest
+
+# puts array.inject(:&)
+
+# sum = ->(x, y) { x + y }
+
+# puts [1,2,3,4].my_inject(&sum)
+
+# puts (5..10).my_inject(&sum)
