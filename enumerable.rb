@@ -14,6 +14,10 @@
 
 # rubocop:disable Style/IdenticalConditionalBranches
 
+# rubocop:disable Style/NilComparison
+
+# rubocop:disable Metrics/ModuleLength
+
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -58,17 +62,17 @@ module Enumerable
       for item in self
         return false unless item.is_a?(parameter)
       end
-      return true
+      true
     elsif parameter && parameter.class == Regexp
       for item in self
         return false unless item.match(parameter)
       end
-      return true
+      true
     else
       for item in self
         return false unless item == parameter
       end
-      return true
+      true
     end
   end
 
@@ -146,11 +150,9 @@ module Enumerable
 
     if parameter
       for item in self
-        if item == parameter
-          result += 1
-        end
+        result += 1 if item == parameter
       end
-      return result
+      result
     end
   end
 
@@ -208,3 +210,7 @@ end
 # rubocop:enable Style/MultipleComparison
 
 # rubocop:enable Style/IdenticalConditionalBranches
+
+# rubocop:enable Style/NilComparison
+
+# rubocop:disable Metrics/ModuleLength
