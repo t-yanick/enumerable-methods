@@ -33,7 +33,7 @@ module Enumerable
 
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
-    
+
     arr = self.to_a
     i = 0
     while i < arr.length
@@ -127,7 +127,7 @@ module Enumerable
       end
       return false
     end
-    
+
     if !block_given? && parameter == false
       for item in self
         return false unless item == false || item == nil
@@ -190,35 +190,35 @@ module Enumerable
     return new_arr
   end
 
-  def my_inject(a = false, b = false)
-    if !block_given? && a && a.class != Symbol && b == false
+  def my_inject(arg_1 = false, arg_2 = false)
+    if !block_given? && arg_1 && arg_1.class != Symbol && arg_2 == false
       return
     end
 
-    if !block_given? && a == false
+    if !block_given? && arg_1 == false
       raise LocalJumpError
     end
 
     arr = self.to_a
 
-    if !block_given? && a.class == Symbol
+    if !block_given? && arg_1.class == Symbol
       i = 0
       accumulator = arr[0]
       while i < arr.length - 1
-        accumulator = accumulator.send(a, arr[i + 1])
+        accumulator = accumulator.send(arg_1, arr[i + 1])
         i += 1
       end
       return accumulator
     end
 
-    if !block_given? && a && b.class == Symbol
+    if !block_given? && arg_1 && arg_2.class == Symbol
       i = 0
       accumulator = arr[0]
       while i < arr.length - 1
-        accumulator = accumulator.send(b, arr[i + 1])
+        accumulator = accumulator.send(arg_2, arr[i + 1])
         i += 1
       end
-      return accumulator + a
+      return accumulator + arg_1
     end
 
     accumulator = arr[0]
@@ -229,11 +229,10 @@ module Enumerable
         accumulator = yield(accumulator, arr[i + 1])
         i += 1
       end
-      accumulator *= a if a && a.class != Symbol
+      accumulator *= arg_1 if arg_1 && arg_1.class != Symbol
       return accumulator
     end
   end
-
 end
 
 def multiply_els(arr)
