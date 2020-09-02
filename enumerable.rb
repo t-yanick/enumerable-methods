@@ -1,7 +1,3 @@
-# rubocop:disable Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/PerceivedComplexity
-# rubocop:disable Metrics/ModuleLength
-
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -159,7 +155,7 @@ module Enumerable
       elsif !block_given? && arg_1 && arg_2.class == Symbol
         accumulator = accumulator.send(arg_2, arr[i + 1])
       end
-      i + = 1
+      i += 1
     end
     accumulator *= arg_1 if arg_1 && arg_2 == false && arg_1.class != Symbol
     accumulator = accumulator.send(arg_2, arg_1) if arg_1 && arg_2.class == Symbol
@@ -172,7 +168,3 @@ def multiply_els(arr)
     a * b
   end
 end
-
-# rubocop:enable Metrics/CyclomaticComplexity
-# rubocop:enable Metrics/PerceivedComplexity
-# rubocop:enable Metrics/ModuleLength
