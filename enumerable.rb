@@ -4,15 +4,17 @@ module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
 
-    for i in self
-      yield(i)
+    i = 0
+    while i < self.length
+      yield(self[i])
+      i += 1
     end
   end
 
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
 
-    arr = self.to_a
+    arr = to_a
     i = 0
     while i < arr.length
       yield(arr[i], i)
@@ -25,7 +27,7 @@ module Enumerable
     new_arr = []
     return to_enum(:my_select) unless block_given?
 
-    self.my_each do |element|
+    my_each do |element|
       result = yield(element)
       new_arr.push(element) if result
     end
@@ -222,3 +224,14 @@ def multiply_els(arr)
 end
 
 # rubocop:enable Style/CaseEquality
+
+
+
+
+numbers = [2,4,7,9,1]
+
+p (numbers.my_select {|number| number != 4})
+
+friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
+
+p (friends.my_select { |friend| friend != "Brian" })
