@@ -1,14 +1,19 @@
 # rubocop:disable Style/CaseEquality
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity
 
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
 
+    arr = to_a
     i = 0
-    while i < self.length
-      yield(self[i])
+    while i < arr.length
+      yield(arr[i])
       i += 1
     end
+    self
   end
 
   def my_each_with_index
@@ -36,21 +41,22 @@ module Enumerable
 
   def my_all?(parameter = false)
     if block_given?
-      for item in self
+      my_each do |item|
         return false unless yield(item)
       end
       return true
     end
 
     if !block_given? && parameter == false
-      for item in self
-        return false if item == false || item == nil
+      my_each do |item|
+        return false if !item
       end
       return true
     end
 
     if parameter && parameter.class == Class
-      for item in self
+      # for item in self
+      my_each do item
         return false unless item.is_a?(parameter)
       end
       true
@@ -224,14 +230,33 @@ def multiply_els(arr)
 end
 
 # rubocop:enable Style/CaseEquality
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/PerceivedComplexity
 
 
 
 
-numbers = [2,4,7,9,1]
+numbers = [3, 15, 9, -72, 33]
 
-p (numbers.my_select {|number| number != 4})
+numbers2 = [1, 2i, 3.14]
 
-friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
+booleans = [true, nil, true]
 
-p (friends.my_select { |friend| friend != "Brian" })
+# puts numbers.my_all? {|number| number < 34}
+
+puts booleans.my_all?
+
+# puts [1, false].my_all?
+
+# puts numbers.my_all?(Integer)
+
+# puts numbers2.my_all?(Integer)
+
+# puts numbers2.my_all?(Numeric)
+
+# puts %w[an tee cat].my_all?(/t/)
+
+# puts %w[an tee cat].my_all?(/t/)
+
+# puts %w[t a t].my_all?("t")
