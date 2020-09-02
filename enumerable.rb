@@ -55,9 +55,9 @@ module Enumerable
     end
 
     if parameter && parameter.class == Class
-        my_each do |item|
+      my_each do |item|
         return false unless item.is_a?(parameter)
-        end
+      end
       return true
     end
 
@@ -68,11 +68,11 @@ module Enumerable
       return true
     end
 
-    if parameter
+    if !block_given? && parameter
       my_each do |item|
         return false unless item == parameter
       end
-      return true
+      true
     end
   end
 
@@ -86,7 +86,7 @@ module Enumerable
 
     if !block_given? && parameter == false
       my_each do |item|
-        return true unless !item
+        return true if item
       end
       return false
     end
@@ -105,11 +105,11 @@ module Enumerable
       return false
     end
 
-    if parameter
+    if !block_given? && parameter
       my_each do |item|
         return true if item == parameter
       end
-      return false
+      false
     end
   end
 
@@ -142,11 +142,11 @@ module Enumerable
       return true
     end
 
-    if parameter
+    if !block_given? && parameter
       my_each do |item|
         return false if item == parameter
       end
-      return true
+      true
     end
   end
 
@@ -163,7 +163,7 @@ module Enumerable
       return arr.size
     end
 
-    if !block_given? && parameter
+    unless block_given? && parameter
       my_each do |item|
         result += 1 if item == parameter
       end
@@ -217,10 +217,9 @@ module Enumerable
       return accumulator
     end
 
-    accumulator = arr[0]
-    i = 0
-
     if block_given? && arg_1 == false && arg_2 == false
+      accumulator = arr[0]
+      i = 0
       while i < arr.length - 1
         accumulator = yield(accumulator, arr[i + 1])
         i += 1
