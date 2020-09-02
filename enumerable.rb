@@ -116,9 +116,9 @@ module Enumerable
       my_each do |item|
         result += 1 if yield(item) == true
       end
-      return result
+      result
     elsif !block_given? && parameter == false
-      return arr.size
+      arr.size
     end
   end
 
@@ -150,18 +150,17 @@ module Enumerable
     i = 0
 
     while i < arr.length - 1
-        if block_given? && arg_1 == false && arg_2 == false
-          accumulator = yield(accumulator, arr[i + 1])
+      if block_given? && arg_1 == false && arg_2 == false
+        accumulator = yield(accumulator, arr[i + 1])
 
-        elsif if !block_given? && arg_1.class == Symbol
-          accumulator = accumulator.send(arg_1, arr[i + 1])
+      elsif !block_given? && arg_1.class == Symbol
+        accumulator = accumulator.send(arg_1, arr[i + 1])
 
-        elsif !block_given? && arg_1 && arg_2.class == Symbol
-          accumulator = accumulator.send(arg_2, arr[i + 1])
-        end
+      elsif !block_given? && arg_1 && arg_2.class == Symbol
+        accumulator = accumulator.send(arg_2, arr[i + 1])
       end
-      i += 1
     end
+    i += 1
     accumulator *= arg_1 if arg_1 && arg_2 == false && arg_1.class != Symbol
     accumulator = accumulator.send(arg_2, arg_1) if arg_1 && arg_2.class == Symbol
     accumulator
