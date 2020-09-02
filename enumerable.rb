@@ -1,26 +1,4 @@
-# rubocop:disable Style/For
-
-# rubocop:disable Style/RedundantSelf
-
-# rubocop:disable Metrics/CyclomaticComplexity
-
-# rubocop:disable Metrics/MethodLength
-
-# rubocop:disable Metrics/PerceivedComplexity
-
-# rubocop:disable Style/GuardClause
-
-# rubocop:disable Style/MultipleComparison
-
-# rubocop:disable Style/IdenticalConditionalBranches
-
-# rubocop:disable Style/NilComparison
-
-# rubocop:disable Metrics/ModuleLength
-
-# rubocop:disable Style/RedundantReturn
-
-# rubocop:disable Style/IfUnlessModifier
+# rubocop:disable Style/CaseEquality
 
 module Enumerable
   def my_each
@@ -123,9 +101,10 @@ module Enumerable
   def my_none?(parameter = false)
     if block_given? && parameter == false
       for item in self
-        return true unless yield(item)
+        puts "item is #{item}"
+        return false if yield(item)
       end
-      return false
+      return true
     end
 
     if !block_given? && parameter == false
@@ -161,7 +140,7 @@ module Enumerable
       end
       return result
     elsif !block_given? && parameter == false
-      return self.length
+      return self.size
     end
 
     if parameter
@@ -218,7 +197,8 @@ module Enumerable
         accumulator = accumulator.send(arg_2, arr[i + 1])
         i += 1
       end
-      return accumulator + arg_1
+      accumulator = accumulator.send(arg_2, arg_1)
+      return accumulator
     end
 
     accumulator = arr[0]
@@ -241,26 +221,4 @@ def multiply_els(arr)
   end
 end
 
-# rubocop:enable Style/For
-
-# rubocop:enable Style/RedundantSelf
-
-# rubocop:enable Metrics/CyclomaticComplexity
-
-# rubocop:enable Metrics/MethodLength
-
-# rubocop:enable Metrics/PerceivedComplexity
-
-# rubocop:enable Style/GuardClause
-
-# rubocop:enable Style/MultipleComparison
-
-# rubocop:enable Style/IdenticalConditionalBranches
-
-# rubocop:enable Style/NilComparison
-
-# rubocop:enable Metrics/ModuleLength
-
-# rubocop:enable Style/RedundantReturn
-
-# rubocop:enable Style/IfUnlessModifier
+# rubocop:enable Style/CaseEquality
