@@ -2,7 +2,7 @@
 
 # rubocop : disable Metrics/PerceivedComplexity
 
-# rubocop : disable CyclomaticComplexity
+# rubocop : disable Metrics/CyclomaticComplexity
 
 module Enumerable
   def my_each
@@ -40,7 +40,7 @@ module Enumerable
     new_arr
   end
 
-  def my_all?(parameter)
+  def my_all?(parameter = false)
     my_each do |item|
       if block_given?
         return false unless yield(item)
@@ -61,7 +61,7 @@ module Enumerable
     true
   end
 
-  def my_any?(parameter)
+  def my_any?(parameter = false)
     my_each do |item|
       if block_given? && parameter == false
         return true if yield(item)
@@ -82,7 +82,7 @@ module Enumerable
     false
   end
 
-  def my_none?(parameter)
+  def my_none?(parameter = false)
     my_each do |item|
       if block_given? && parameter == false
         return false if yield(item)
@@ -103,28 +103,24 @@ module Enumerable
     true
   end
 
-  def my_count(parameter)
+  def my_count(parameter = false)
     result = 0
     arr = to_a
-
-    unless block_given? && parameter
-      my_each do |item|
+    
+    my_each do |item|
+      if !block_given? && parameter
         result += 1 if item == parameter
-      end
-      result
-    end
 
-    if block_given? && parameter == false
-      my_each do |item|
+      elsif block_given? && parameter == false
         result += 1 if yield(item) == true
+
       end
-      result
-    elsif !block_given? && parameter == false
-      arr.size
     end
+    return arr.size if !block_given? && parameter == false
+    result
   end
 
-  def my_map(my_proc)
+  def my_map(my_proc = false)
     new_arr = []
     return to_enum(:my_map) unless block_given?
 
@@ -142,7 +138,7 @@ module Enumerable
     new_arr
   end
 
-  def my_inject(arg_one, arg_two)
+  def my_inject(arg_one = false, arg_two = false)
     return if !block_given? && arg_one && arg_one.class != Symbol && arg_two == false
 
     raise LocalJumpError if !block_given? && arg_one == false
@@ -179,4 +175,4 @@ end
 
 # rubocop : enable Metrics/PerceivedComplexity
 
-# rubocop : enable CyclomaticComplexity
+# rubocop : enable Metrics/CyclomaticComplexity
