@@ -159,8 +159,8 @@ module Enumerable
       elsif !block_given? && arg_1 && arg_2.class == Symbol
         accumulator = accumulator.send(arg_2, arr[i + 1])
       end
+      i + = 1
     end
-    i += 1
     accumulator *= arg_1 if arg_1 && arg_2 == false && arg_1.class != Symbol
     accumulator = accumulator.send(arg_2, arg_1) if arg_1 && arg_2.class == Symbol
     accumulator
