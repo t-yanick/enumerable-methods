@@ -1,3 +1,5 @@
+#rubocop:disable Metrics/ModuleLength
+
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -34,7 +36,7 @@ module Enumerable
     new_arr
   end
 
-  def my_all?(parameter = false)
+  def my_all?(parameter)
     my_each do |item|
       if block_given?
         return false unless yield(item)
@@ -55,7 +57,7 @@ module Enumerable
     true
   end
 
-  def my_any?(parameter = false)
+  def my_any?(parameter)
     my_each do |item|
       if block_given? && parameter == false
         return true if yield(item)
@@ -76,7 +78,7 @@ module Enumerable
     false
   end
 
-  def my_none?(parameter = false)
+  def my_none?(parameter)
     my_each do |item|
       if block_given? && parameter == false
         return false if yield(item)
@@ -97,7 +99,7 @@ module Enumerable
     true
   end
 
-  def my_count(parameter = false)
+  def my_count(parameter)
     result = 0
     arr = to_a
 
@@ -118,7 +120,7 @@ module Enumerable
     end
   end
 
-  def my_map(my_proc = false)
+  def my_map(my_proc)
     new_arr = []
     return to_enum(:my_map) unless block_given?
 
@@ -136,7 +138,7 @@ module Enumerable
     new_arr
   end
 
-  def my_inject(arg_1 = false, arg_2 = false)
+  def my_inject(arg_1, arg_2)
     return if !block_given? && arg_1 && arg_1.class != Symbol && arg_2 == false
 
     raise LocalJumpError if !block_given? && arg_1 == false
@@ -168,3 +170,5 @@ def multiply_els(arr)
     a * b
   end
 end
+
+#rubocop:disable Metrics/ModuleLength
