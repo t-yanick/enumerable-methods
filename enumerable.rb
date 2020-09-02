@@ -1,7 +1,7 @@
-# rubocop:disable Style/CaseEquality
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/ModuleLength
 
 module Enumerable
   def my_each
@@ -49,57 +49,64 @@ module Enumerable
 
     if !block_given? && parameter == false
       my_each do |item|
-        return false if !item
+        return false unless item
       end
       return true
     end
 
     if parameter && parameter.class == Class
-      # for item in self
-      my_each do item
+        my_each do |item|
         return false unless item.is_a?(parameter)
-      end
-      true
-    elsif parameter && parameter.class == Regexp
-      for item in self
+        end
+      return true
+    end
+
+    if parameter && parameter.class == Regexp
+      my_each do |item|
         return false unless item.match(parameter)
       end
-      true
-    else
-      for item in self
+      return true
+    end
+
+    if parameter
+      my_each do |item|
         return false unless item == parameter
       end
-      true
+      return true
     end
   end
 
   def my_any?(parameter = false)
     if block_given?
-      for item in self
+      my_each do |item|
         return true if yield(item)
       end
       return false
     end
 
     if !block_given? && parameter == false
-      for item in self
-        return true unless item == false || item == nil
+      my_each do |item|
+        return true unless !item
       end
       return false
     end
 
     if parameter && parameter.class == Class
-      for item in self
+      my_each do |item|
         return true if item.is_a?(parameter)
       end
       return false
-    elsif parameter && parameter.class == Regexp
-      for item in self
+    end
+
+    if parameter && parameter.class == Regexp
+      my_each do |item|
         return true if item.match(parameter)
       end
       return false
-    else
-      for item in self
+    end
+
+    if parameter
+      my_each do |item|
         return true if item == parameter
       end
       return false
@@ -108,32 +115,35 @@ module Enumerable
 
   def my_none?(parameter = false)
     if block_given? && parameter == false
-      for item in self
-        puts "item is #{item}"
+      my_each do |item|
         return false if yield(item)
       end
       return true
     end
 
     if !block_given? && parameter == false
-      for item in self
-        return false unless item == false || item == nil
+      my_each do |item|
+        return false if item
       end
       return true
     end
 
     if parameter && parameter.class == Class
-      for item in self
+      my_each do |item|
         return false if item.is_a?(parameter)
       end
       return true
-    elsif parameter && parameter.class == Regexp
-      for item in self
+    end
+
+    if parameter && parameter.class == Regexp
+      my_each do |item|
         return false if item.match(parameter)
       end
       return true
-    elsif parameter
-      for item in self
+    end
+
+    if parameter
+      my_each do |item|
         return false if item == parameter
       end
       return true
@@ -142,20 +152,22 @@ module Enumerable
 
   def my_count(parameter = false)
     result = 0
+    arr = to_a
+
     if block_given? && parameter == false
-      for item in self
+      my_each do |item|
         result += 1 if yield(item) == true
       end
       return result
     elsif !block_given? && parameter == false
-      return self.size
+      return arr.size
     end
 
-    if parameter
-      for item in self
+    if !block_given? && parameter
+      my_each do |item|
         result += 1 if item == parameter
       end
-      return result
+      result
     end
   end
 
@@ -163,7 +175,7 @@ module Enumerable
     new_arr = []
     return to_enum(:my_map) unless block_given?
 
-    for item in self
+    my_each do |item|
       if block_given? && my_proc == false
         new_arr.push yield(item)
       elsif block_given? && my_proc.class == Proc
@@ -174,19 +186,15 @@ module Enumerable
         new_arr.push my_proc.call(item)
       end
     end
-    return new_arr
+    new_arr
   end
 
   def my_inject(arg_1 = false, arg_2 = false)
-    if !block_given? && arg_1 && arg_1.class != Symbol && arg_2 == false
-      return
-    end
+    return if !block_given? && arg_1 && arg_1.class != Symbol && arg_2 == false
 
-    if !block_given? && arg_1 == false
-      raise LocalJumpError
-    end
+    raise LocalJumpError if !block_given? && arg_1 == false
 
-    arr = self.to_a
+    arr = to_a
 
     if !block_given? && arg_1.class == Symbol
       i = 0
@@ -212,13 +220,13 @@ module Enumerable
     accumulator = arr[0]
     i = 0
 
-    if block_given?
+    if block_given? && arg_1 == false && arg_2 == false
       while i < arr.length - 1
         accumulator = yield(accumulator, arr[i + 1])
         i += 1
       end
       accumulator *= arg_1 if arg_1 && arg_1.class != Symbol
-      return accumulator
+      accumulator
     end
   end
 end
@@ -229,34 +237,7 @@ def multiply_els(arr)
   end
 end
 
-# rubocop:enable Style/CaseEquality
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/PerceivedComplexity
-
-
-
-
-numbers = [3, 15, 9, -72, 33]
-
-numbers2 = [1, 2i, 3.14]
-
-booleans = [true, nil, true]
-
-# puts numbers.my_all? {|number| number < 34}
-
-puts booleans.my_all?
-
-# puts [1, false].my_all?
-
-# puts numbers.my_all?(Integer)
-
-# puts numbers2.my_all?(Integer)
-
-# puts numbers2.my_all?(Numeric)
-
-# puts %w[an tee cat].my_all?(/t/)
-
-# puts %w[an tee cat].my_all?(/t/)
-
-# puts %w[t a t].my_all?("t")
+# rubocop:enable Metrics/ModuleLength
