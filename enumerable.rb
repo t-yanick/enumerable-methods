@@ -1,4 +1,8 @@
-#rubocop:disable Metrics/ModuleLength
+# rubocop:disable Metrics/ModuleLength
+
+# rubocop:disable Metrics/PerceivedComplexity
+
+# rubocop:disable CyclomaticComplexity
 
 module Enumerable
   def my_each
@@ -138,29 +142,29 @@ module Enumerable
     new_arr
   end
 
-  def my_inject(arg_1, arg_2)
-    return if !block_given? && arg_1 && arg_1.class != Symbol && arg_2 == false
+  def my_inject(arg_one, arg_two)
+    return if !block_given? && arg_one && arg_one.class != Symbol && arg_two == false
 
-    raise LocalJumpError if !block_given? && arg_1 == false
+    raise LocalJumpError if !block_given? && arg_one == false
 
     arr = to_a
     accumulator = arr[0]
     i = 0
 
     while i < arr.length - 1
-      if block_given? && arg_1 == false && arg_2 == false
+      if block_given? && arg_one == false && arg_two == false
         accumulator = yield(accumulator, arr[i + 1])
 
-      elsif !block_given? && arg_1.class == Symbol
-        accumulator = accumulator.send(arg_1, arr[i + 1])
+      elsif !block_given? && arg_one.class == Symbol
+        accumulator = accumulator.send(arg_one, arr[i + 1])
 
-      elsif !block_given? && arg_1 && arg_2.class == Symbol
-        accumulator = accumulator.send(arg_2, arr[i + 1])
+      elsif !block_given? && arg_one && arg_two.class == Symbol
+        accumulator = accumulator.send(arg_two, arr[i + 1])
       end
       i += 1
     end
-    accumulator *= arg_1 if arg_1 && arg_2 == false && arg_1.class != Symbol
-    accumulator = accumulator.send(arg_2, arg_1) if arg_1 && arg_2.class == Symbol
+    accumulator *= arg_one if arg_one && arg_two == false && arg_one.class != Symbol
+    accumulator = accumulator.send(arg_two, arg_one) if arg_one && arg_two.class == Symbol
     accumulator
   end
 end
@@ -171,4 +175,8 @@ def multiply_els(arr)
   end
 end
 
-#rubocop:disable Metrics/ModuleLength
+# rubocop:enable Metrics/ModuleLength
+
+# rubocop:enable Metrics/PerceivedComplexity
+
+# rubocop:enable CyclomaticComplexity
