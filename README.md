@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
 
-# Bubble Sort
+# Enumerable class
 
 The Microverse second project for the Ruby module that consists of reproducing some of the methods from the Enumerable class with the Ruby programming language and the specific requirements for the implementation.
 
