@@ -45,13 +45,13 @@ module Enumerable
       if block_given?
         return false unless yield(item)
 
-      elsif !block_given? && parameter == false
+      elsif parameter == false
         return false unless item
 
-      elsif parameter && parameter.class == Class
+      elsif parameter.class == Class
         return false unless item.is_a?(parameter)
 
-      elsif parameter && parameter.class == Regexp
+      elsif parameter.class == Regexp
         return false unless item.match(parameter)
 
       elsif parameter
@@ -87,13 +87,13 @@ module Enumerable
       if block_given? && parameter == false
         return false if yield(item)
 
-      elsif !block_given? && parameter == false
+      elsif parameter == false
         return false if item
 
-      elsif parameter && parameter.class == Class
+      elsif parameter.class == Class
         return false if item.is_a?(parameter)
 
-      elsif parameter && parameter.class == Regexp
+      elsif parameter.class == Regexp
         return false if item.match(parameter)
 
       elsif parameter
@@ -152,6 +152,9 @@ module Enumerable
       if block_given? && arg_one == false && arg_two == false
         accumulator = yield(accumulator, arr[i + 1])
 
+      elsif block_given? && arg_one && arg_two == false
+        accumulator = yield(accumulator, arr[i + 1])
+
       elsif !block_given? && arg_one.class == Symbol
         accumulator = accumulator.send(arg_one, arr[i + 1])
 
@@ -160,7 +163,7 @@ module Enumerable
       end
       i += 1
     end
-    accumulator *= arg_one if arg_one && arg_two == false && arg_one.class != Symbol
+    accumulator = yield(accumulator, arg_one) if arg_one && arg_two == false
     accumulator = accumulator.send(arg_two, arg_one) if arg_one && arg_two.class == Symbol
     accumulator
   end
