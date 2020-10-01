@@ -15,6 +15,10 @@ describe Enumerable do
       expect(new_arr.my_each { |el| el + 2}).yield_self
     end
 
+    it "Should return the enumerator if no block is given" do
+      expect(new_arr.my_each).to be_an Enumerator
+    end
+
   end
 
   describe '#my_each_with_index' do
@@ -30,6 +34,9 @@ describe Enumerable do
       expect(new_arr.my_each_with_index { |el| el + 2}).yield_self
     end
 
+    it "Should return the enumerator if no block is given" do
+      expect(new_arr.my_each_with_index).to be_an Enumerator
+    end
   end
 
   describe '#my_select' do
@@ -44,6 +51,10 @@ describe Enumerable do
       expect do
         expect(new_arr.my_select { |num| num.even? }).yield_self
       end
+    end
+
+    it "Should return the enumerator if no block is given" do
+      expect(new_arr.my_select).to be_an Enumerator
     end
 
   end
@@ -87,15 +98,19 @@ describe Enumerable do
 
   end
 
-  describe '#my_ma' do
+  describe '#my_map' do
     let(:new_arr) { [1, 2, 3, 5, 8] }
 
-    it 'Iterate over the array is called and return the number of elements in the array that satisfy the conditions specified in the block' do
-      expect(new_arr.my_count{ |el| el > 3}).to eq(2)
+    it 'Iterate over the array is called and return a new array with booleans true or false, according to the elements satisfy the conditions specified in the block' do
+      expect(new_arr.my_map{ |el| el > 3}).to eq([false, false, false, true, true])
     end
 
     it 'Iterate over the array is called and yield control to the block predicate' do
-      expect(new_arr.my_count { |el| el > 3}).yield_self
+      expect(new_arr.my_map{ |el| el > 3}).yield_self
+    end
+
+    it "Should return the enumerator if no block is given" do
+      expect(new_arr.my_map).to be_an Enumerator
     end
   end
 
