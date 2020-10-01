@@ -143,7 +143,7 @@ module Enumerable
     return if !block_given? && arg_one && arg_one.class != Symbol && arg_two == false
 
     raise LocalJumpError if !block_given? && arg_one == false
-
+  
     arr = to_a
     accumulator = arr[0]
     i = 0
@@ -163,7 +163,7 @@ module Enumerable
       end
       i += 1
     end
-    accumulator = yield(accumulator, arg_one) if arg_one && arg_two == false
+    accumulator = yield(accumulator, arg_one) if block_given? && arg_one
     accumulator = accumulator.send(arg_two, arg_one) if arg_one && arg_two.class == Symbol
     accumulator
   end
