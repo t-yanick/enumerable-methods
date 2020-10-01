@@ -1,9 +1,3 @@
-# rubocop : disable Metrics/ModuleLength
-
-# rubocop : disable Metrics/PerceivedComplexity
-
-# rubocop : disable Metrics/CyclomaticComplexity
-
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -143,7 +137,7 @@ module Enumerable
     return if !block_given? && arg_one && arg_one.class != Symbol && arg_two == false
 
     raise LocalJumpError if !block_given? && arg_one == false
-  
+
     arr = to_a
     accumulator = arr[0]
     i = 0
@@ -174,9 +168,3 @@ def multiply_els(arr)
     a * b
   end
 end
-
-# rubocop : enable Metrics/ModuleLength
-
-# rubocop : enable Metrics/PerceivedComplexity
-
-# rubocop : enable Metrics/CyclomaticComplexity
