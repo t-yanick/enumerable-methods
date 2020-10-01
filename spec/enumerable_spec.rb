@@ -48,4 +48,56 @@ describe Enumerable do
 
   end
 
+  describe '#my_any?' do
+    let(:new_arr) { [1, 2, 3, 5, 8] }
+
+    it 'Iterate over the array is called and return a boolean either true or false, if any of the elements in the array satisfy the conditions specified in the block' do
+      expect(new_arr.my_any? { |el| el > 3}).to eq(true)
+    end
+
+    it 'Iterate over the array is called and yield control to the block predicate' do
+      expect(new_arr.my_any? { |el| el > 3}).yield_self
+    end
+
+  end
+
+  describe '#my_none?' do
+    let(:new_arr) { [1, 2, 3, 5, 8] }
+
+    it 'Iterate over the array is called and return a boolean either true or false, if none of the elements in the array satisfy the conditions specified in the block' do
+      expect(new_arr.my_none? { |el| el > 3}).to eq(false)
+    end
+
+    it 'Iterate over the array is called and yield control to the block predicate' do
+      expect(new_arr.my_none? { |el| el > 3}).yield_self
+    end
+
+  end
+
+  describe '#my_count' do
+    let(:new_arr) { [1, 2, 3, 5, 8] }
+
+    it 'Iterate over the array is called and return the number of elements in the array that satisfy the conditions specified in the block' do
+      expect(new_arr.my_count{ |el| el > 3}).to eq(2)
+    end
+
+    it 'Iterate over the array is called and yield control to the block predicate' do
+      expect(new_arr.my_count { |el| el > 3}).yield_self
+    end
+
+  end
+
+  describe '#my_ma' do
+    let(:new_arr) { [1, 2, 3, 5, 8] }
+
+    it 'Iterate over the array is called and return the number of elements in the array that satisfy the conditions specified in the block' do
+      expect(new_arr.my_count{ |el| el > 3}).to eq(2)
+    end
+
+    it 'Iterate over the array is called and yield control to the block predicate' do
+      expect(new_arr.my_count { |el| el > 3}).yield_self
+    end
+  end
+
+
 end
